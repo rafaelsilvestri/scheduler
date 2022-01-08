@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  redis:
+    image: redis
+    container_name: redis_scheduler_lock
+    ports:
+      - "6379:6379"
+  instance1:
+    build: .
+    ports:
+      - "8081:8080"
+    environment:
+      - INSTANCE_NAME=Instance1
+      - SPRING_PROFILES_ACTIVE=scheduler
+      - redisHost=redis_scheduler_lock
+      - redisPort=6379
+    depends_on:
+      - redis
+  instance2:
+    build: .
+    ports:
+      - "8082:8080"
+    environment:
+      - INSTANCE_NAME=Instance2
+      - SPRING_PROFILES_ACTIVE=scheduler
+      - redisHost=redis_scheduler_lock
+      - redisPort=6379
+    depends_on:
+      - redis
+  instance3:
+    build: .
+    ports:
+      - "8083:8080"
+    environment:
+      - INSTANCE_NAME=Instance3
+      - SPRING_PROFILES_ACTIVE=scheduler
+      - redisHost=redis_scheduler_lock
+      - redisPort=6379
+    depends_on:
+      - redis
+  instance4:
+    build: .
+    ports:
+      - "8084:8080"
+    environment:
+      - INSTANCE_NAME=Instance3
+      - SPRING_PROFILES_ACTIVE=default
